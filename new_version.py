@@ -1,10 +1,22 @@
 #%%
 import numpy as np 
-from astropy.cosmology import Planck18 as cosmo
-tab = '    '
+import astropy.cosmology as ac
 
 def mpc_to_gly(dist):
     return dist*0.0032637977445371
+
+tab = '    '
+
+cosmo_names = ['WMAP1', 'WMAP3', 'WMAP5', 'WMAP7', 'WMAP9', 'Planck13', 'Planck15', 'Planck18']
+cosmo_models = [ac.WMAP1, ac.WMAP3, ac.WMAP5, ac.WMAP7, ac.WMAP9, ac.Planck13, ac.Planck15, ac.Planck18]
+cosmo_dict = {}
+for key in cosmo_names:
+    for value in cosmo_models:
+        cosmo_dict[key] = value
+        cosmo_models.remove(value)
+        break
+
+cosmo = cosmo_dict['Planck18']
 
 z = float(input('Enter redshift (z) value: '))
 

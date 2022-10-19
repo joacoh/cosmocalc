@@ -1,24 +1,44 @@
 #%%
 import numpy as np 
 from astropy.cosmology import Planck18 as cosmo
+tab = '    '
 
 def mpc_to_gly(dist):
     return dist*0.0032637977445371
 
-z = 1
+z = float(input('Enter redshift (z) value: '))
 
 age_now = cosmo.age(0).value
+str1 = tab+'- It is now {:.4f} Gyr since the Big Bang.'.format(age_now)
+
 age_at_z = cosmo.age(z).value
+str2 = tab+'- The age at redshift z was {:.4f} Gyr'.format(age_at_z)
+
 ligh_travel_time = cosmo.lookback_time(z).value
+str3 = tab+'- The light travel time was {:.4f} Gyr.'.format(ligh_travel_time)
+
 como_dist_mpc = cosmo.comoving_distance(z).value
 como_dist_gly = mpc_to_gly(como_dist_mpc)
+str4 = tab+"- The comoving radial distance, which goes into Hubble's law, is {:.4f} Mpc or {:.4f} Gly.".format(como_dist_mpc, como_dist_gly)
+
 como_volume = cosmo.comoving_volume(z).value*(0.001**3)
+str5 = tab+'- The comoving volume within redshift z is {:.4f} Gpc^3.'.format(como_volume)
+
 angular_diameter_mpc = cosmo.angular_diameter_distance(z).value
 angular_diameter_gly = mpc_to_gly(angular_diameter_mpc)
+str6 = tab+'- The angular size distance D_A is {:.4f} Mpc or {:.4f} Gly.'.format(angular_diameter_mpc, angular_diameter_gly)
+
 angular_scale = cosmo.kpc_proper_per_arcmin(z).value/60
-lum_dist = cosmo.luminosity_distance(z).value
+str7 = tab+'- This gives a scale of {:.4f} kpc/".'.format(angular_scale)
+
+lum_dist_mpc = cosmo.luminosity_distance(z).value
+lum_dist_gly = mpc_to_gly(lum_dist_mpc)
+str8 = tab+'- The luminosity distance D_L is {:.4f} Mpc or {:.4f} Gly.'.format(lum_dist_mpc, lum_dist_gly)
 
 omega_vac = 1-cosmo.Om0
+strings = [str1, str2, str3, str4, str5, str6, str7, str8]
 
 print('For H_0 = {}, Omega_M = {}, Omega_Vac = {} and z = {}'. format(cosmo.H0.value, cosmo.Om0, omega_vac, z))
+for string in strings:
+    print(string)
 # %%

@@ -16,7 +16,7 @@ for key in cosmo_names:
         cosmo_models.remove(value)
         break
 
-base_model = int(input('Select a base model:\nPlanck18 [0]\nWMAP1 (1)\nWMAP3 (2)\nWMAP5 (3)\nWMAP7 (4)\nWMAP9 (5)\nPlanck13 (6)\nPlanck15 (7)') or 0)
+base_model = int(input('Select a base model from the following:\nPlanck18 [0]\nWMAP1 (1)\nWMAP3 (2)\nWMAP5 (3)\nWMAP7 (4)\nWMAP9 (5)\nPlanck13 (6)\nPlanck15 (7)\nEnter the digit of the model: ') or 0)
 cosmo = cosmo_dict[cosmo_names[base_model]]
 
 curv_id = int(input('Flat [0], Open (1) or General (2)?: ') or 0)
@@ -28,7 +28,7 @@ elif curv=='General':
     omega_vac = float(input('Enter your value of Omega_Vac: '))
     cosmo = ac.LambdaCDM(cosmo.H0.value, cosmo.Om0, omega_vac)
 
-z = float(input('Enter redshift (z) value: '))
+z = float(input('Enter redshift (z) value: ') or 3)
 
 age_now = cosmo.age(0).value
 str1 = tab+'- It is now {:.4f} Gyr since the Big Bang.'.format(age_now)

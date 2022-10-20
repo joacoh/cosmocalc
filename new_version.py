@@ -1,5 +1,4 @@
 #%%
-import numpy as np 
 import astropy.cosmology as ac
 
 def mpc_to_gly(dist):
@@ -7,8 +6,9 @@ def mpc_to_gly(dist):
 
 tab = '    '
 
-cosmo_names = ['WMAP1', 'WMAP3', 'WMAP5', 'WMAP7', 'WMAP9', 'Planck13', 'Planck15', 'Planck18']
-cosmo_models = [ac.WMAP1, ac.WMAP3, ac.WMAP5, ac.WMAP7, ac.WMAP9, ac.Planck13, ac.Planck15, ac.Planck18]
+curvs = ['Flat', 'Open', 'General']
+cosmo_names = ['Planck18', 'WMAP1', 'WMAP3', 'WMAP5', 'WMAP7', 'WMAP9', 'Planck13', 'Planck15']
+cosmo_models = [ac.Planck18, ac.WMAP1, ac.WMAP3, ac.WMAP5, ac.WMAP7, ac.WMAP9, ac.Planck13, ac.Planck15]
 cosmo_dict = {}
 for key in cosmo_names:
     for value in cosmo_models:
@@ -16,7 +16,17 @@ for key in cosmo_names:
         cosmo_models.remove(value)
         break
 
-cosmo = cosmo_dict['Planck18']
+base_model = int(input('Select a base model:\nPlanck18 [0]\nWMAP1 (1)\nWMAP3 (2)\nWMAP5 (3)\nWMAP7 (4)\nWMAP9 (5)\nPlanck13 (6)\nPlanck15 (7)') or 0)
+cosmo = cosmo_dict[cosmo_names[base_model]]
+
+curv_id = int(input('Flat [0], Open (1) or General (2)?: ') or 0)
+curv = curvs[curv_id]
+
+if curv=='Open':
+    cosmo = ac.LambdaCDM(cosmo.H0.value, cosmo.Om0, 0)
+elif curv=='General':
+    omega_vac = float(input('Enter your value of Omega_Vac: '))
+    cosmo = ac.LambdaCDM(cosmo.H0.value, cosmo.Om0, omega_vac)
 
 z = float(input('Enter redshift (z) value: '))
 
@@ -47,10 +57,9 @@ lum_dist_mpc = cosmo.luminosity_distance(z).value
 lum_dist_gly = mpc_to_gly(lum_dist_mpc)
 str8 = tab+'- The luminosity distance D_L is {:.4f} Mpc or {:.4f} Gly.'.format(lum_dist_mpc, lum_dist_gly)
 
-omega_vac = 1-cosmo.Om0
 strings = [str1, str2, str3, str4, str5, str6, str7, str8]
 
-print('For H_0 = {}, Omega_M = {}, Omega_Vac = {} and z = {}'. format(cosmo.H0.value, cosmo.Om0, omega_vac, z))
+print('For H_0 = {}, Omega_M = {:.4f}, Omega_Vac = {:.4f} and z = {}'. format(cosmo.H0.value, cosmo.Om0, cosmo.Ode0, z))
 for string in strings:
     print(string)
-# %%
+#%%

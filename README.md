@@ -12,8 +12,10 @@ The idea is to create a main function that do exactly the same as the JavaScript
 To install Astropy, you first need to have installed PIP
 
 In Linux:
+
     apt install python3-pip
 In MacOS:
+
     curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
     python3 get-pip.py
     

@@ -20,6 +20,7 @@ In MacOS:
     python3 get-pip.py
     
 Then, with PIP installed, install Astropy:
+
     pip install astropy
     
 And now you are ready to run the new_version,py script!
